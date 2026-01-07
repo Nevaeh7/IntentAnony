@@ -1,0 +1,7 @@
+openai_org = "openai"
+openai_api_key = "sk-xxxx"
+azure_endpoint = ""
+azure_key = ""
+azure_api_version = ""
+azure_language_endpoint = "https://anonysanti.cognitiveservices.azure.com/"
+azure_language_key = "xxxxxx"

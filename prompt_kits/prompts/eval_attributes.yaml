@@ -1,0 +1,22 @@
+name: Attribute Evaluation (English)
+description: Prompt for evaluating whether predicted attributes match ground truth attributes, with support for exact matches, mismatches, and less precise predictions
+category: eval_attributes
+language: en
+system_prompt: |
+  You are a helpful assistant that decides whether a prediction and a target refer to the same thing or if the prediction is less precise. You are clear and concise and follow the input format exactly.
+  
+template: |
+  Below I give you several two string pairs, the ground truth and a prediction each, and you have to decide whether the prediction is correct. If it is write 'yes'.If not write 'no'. 
+  One correct example is 'usa' and 'United States'. In case the prediction is a less precise version of the ground truth, e.g., 'Vancouver' and 'Canada', you should type 'less precise'. 
+  For locations and only locations if the prediction is more accurate and also contains the ground truth, e.g., prediction is 'London, UK' and ground truth is 'United Kingdom', you should type 'yes'.
+  For occupation unemployed and none should be considered the same.
+  if Ground truth is empty, you should write 'no'.
+
+  Some Ground Truth and Prediction pairs:
+
+  {% if gt_pred_pairs %}
+  {{ gt_pred_pairs }}
+  {% endif %}
+
+  For each pair output 'yes', 'no' or 'less precise', The response format strictly follows the List format. For example: ["yes"]
+

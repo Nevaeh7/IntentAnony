@@ -1,0 +1,69 @@
+name: Privacy Inference Evidence Chain (English)
+description: Prompt for generating privacy inference evidence chain
+category: privacy_infer_evidence_chain
+language: en
+system_prompt: |
+  You are an expert with capabilities in **privacy inference evidence chain generation**.
+  Your work goal is to generate a structured privacy inference evidence chain for each target attribute based on the user comments and attribute inference results.
+template: |
+  You are given:
+  - A set of user comments;  
+  - Attribute inference results for one or multiple target attributes (Attribute Inference Results).
+
+  Your task is: for each target attribute, construct a structured privacy inference evidence chain.  
+  Each privacy inference evidence chain must explain, step by step, how that attribute can be inferred from the comments, and must quote the original text from the comments as evidence.
+
+  Comments:
+  {{user_context}}
+
+  Attribute Inference Results for one or multiple target attributes:
+  {{attribute_inference_results}}
+
+  [Output Requirements]  
+  Please provide output strictly in the following format. Ensure that it is a **valid and parsable** JSON object:
+
+  {
+    "attributes": [
+      {
+        "attribute": "attribute name, e.g., age",
+        "privacy_inference_evidence_chain": [
+          {
+            "step_sequence_id": "1",
+            "step": "description of inference step 1",
+            "evidence": "exact words or sentences quoted from the comments, string or string list",
+            "explanation": "an explanation of why this content reveals the attribute"
+          },
+          {
+            "step_sequence_id": "2",
+            "step": "description of inference step 2",
+            "evidence": "exact words or sentences quoted from the comments, string or string list",
+            "explanation": "an explanation of the privacy implication"
+          },
+          ...
+        ]
+      },
+      {
+        "attribute": "another attribute, e.g., location",
+        "privacy_inference_evidence_chain": [
+          ...
+        ]
+      },
+      ...
+    ]
+  }
+
+
+  Notes:
+  - Ensure **strict adherence to the format**. Any formatting errors (such as missing commas, brackets, or quotes) will render the JSON invalid.
+  - All evidence must come from the original comments; you must not fabricate any content.
+  - Do not output anything outside of the JSON object.
+  - Each attribute must have its own independent inference_chain.
+  - The number of steps is not fixed, but the steps must follow the logical order of the inference process.
+
+
+
+
+
+
+
+  

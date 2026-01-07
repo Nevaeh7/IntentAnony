@@ -1,0 +1,46 @@
+{
+  "version": "7.0",
+  "locale": "en-US",
+  "module": "Intent-Aware Privacy Policy",
+  "principle": "Set maximum exposure granularity limits (BAN/L0–L3) for each attribute based on intent dimensions (I1–I5), taking conservative synthesis for multiple intents; minimize privacy exposure without sacrificing the main purpose.",
+  "levels": {
+    "BAN": { "desc": "Prohibited, must be removed or replaced with placeholder", "rank": 4 },
+    "L3": { "desc": "Precise entity/highly identifiable", "rank": 3 },
+    "L2": { "desc": "Relatively specific (distinguishable but not unique)", "rank": 2 },
+    "L1": { "desc": "Category level/coarse granularity", "rank": 1 },
+    "L0": { "desc": "Coarsest, only semantic information retained", "rank": 0 }
+  },
+  "attributes": ["AGE","EDU","SEX","OCC","MAR","LOC","POB","INC"],
+  "attributes_desc": {
+    "AGE": "Age",
+    "EDU": "Education level",
+    "SEX": "Gender",
+    "OCC": "Occupation",
+    "MAR": "Marital status",
+    "LOC": "Current location",
+    "POB": "Place of birth",
+    "INC": "Annual income"
+  },
+  "intents": {
+    "I1": { "name": "Self-Expression", "tolerance": "medium", "desc": "Emotions/opinions/experiences, etc." },
+    "I2": { "name": "Social-Interaction", "tolerance": "medium-high", "desc": "Communication/help-seeking/dialogue etc." },
+    "I3": { "name": "Professional-Identity", "tolerance": "medium", "desc": "skills showcase, etc." },
+    "I4": { "name": "Informative-Sharing", "tolerance": "medium-low", "desc": "Knowledge/experience, sharing etc." },
+    "I5": { "name": "Sensitive-Disclosure", "tolerance": "very_low", "desc": "Health/politics/finance/psychological, etc." }
+  },
+"intent_matrix": {
+  "note": "In different scenarios, maximum granularity limits for attributes under each intent; must not exceed these limits during execution. This version is a balanced design, considering both privacy security and text usability.",
+    "I1":  { "AGE":"L?","EDU":"L?","SEX":"L?","OCC":"L?","MAR":"L?","LOC":"L?","POB":"L?","INC":"L?" },
+    "I2":  { "AGE":"L?","EDU":"L?","SEX":"L?","OCC":"L?","MAR":"L?","LOC":"L?","POB":"L?","INC":"L?" },
+    "I3":  { "AGE":"L?","EDU":"L?","SEX":"L?","OCC":"L?","MAR":"L?","LOC":"L?","POB":"L?","INC":"L?" },
+    "I4":  { "AGE":"L?","EDU":"L?","SEX":"L?","OCC":"L?","MAR":"L?","LOC":"L?","POB":"L?","INC":"L?" },
+    "I5":  { "AGE":"L?","EDU":"L?","SEX":"L?","OCC":"L?","MAR":"L?","LOC":"L?","POB":"L?","INC":"L?" }
+  },
+  "output_contract": {
+    "intent_vector": {"I1":0.6, "I2":0.4},
+    "anonymized_text": "string",
+    "final_levels": { "AGE":"L0-L3|BAN","EDU":"L0-L3|BAN","SEX":"L0-L3|BAN","OCC":"L0-L3|BAN","MAR":"L0-L3|BAN","LOC":"L0-L3|BAN","POB":"L0-L3|BAN","INC":"L0-L3|BAN" }
+  }
+
+}
+

@@ -1,0 +1,87 @@
+output_dir: "results"
+seed: 10
+task: "ANONYMIZED"
+dryrun: False
+save_prompts: True
+timeout: 0.0
+config_name: "synthpai_ds_r1"
+dataset_name: "synthpai_v2"
+collection_name: "synthpai_v2"
+task_config: 
+    profile_path: "dataset/anonymization/synthpai/synthpai_protected_v4_filtered.jsonl"
+    outpath: "anonymized_results/synthpai/glm46_ad_piec"
+    update_db: False
+    anonymizer: 
+      anon_type: "llm"
+      target_mode: "single"
+      anon_model_name: "intent_anonymization"
+      anonymized_which_parts: "User Comments"
+      anonymized_max_iter: 1
+      max_workers: 125
+      batch_size: 125
+      is_pre_iiv: False
+    anon_model:
+      name: "glm-4.7"
+      provider: "glm"
+      prompt_category: intent_evidence_anonymization
+      prompt_policy_version: "7.0"
+      prompt_language: en
+      args: {
+        temperature: 0.1
+      }
+    adversary_attack_model:
+      name: "glm-4.7"
+      provider: "glm"
+      prompt_category: adversary_attack_infer_intent_v3
+      prompt_policy_version: "7.0"
+      prompt_language: en
+      args: {
+        temperature: 0.1
+      }
+    piec_model:
+      name: "glm-4.7"
+      provider: "glm"
+      prompt_category: privacy_infer_evidence_chain
+      prompt_policy_version: "7.0"
+      prompt_language: en
+      args: {
+        temperature: 0.1
+      }
+    inference_model:
+      name: "deepseek-reasoner"
+      provider: "deepseek"
+      prompt_category: infer_v3
+      prompt_language: en
+      args: {
+        temperature: 0.1
+      }
+    utility_model:
+      name: "deepseek-chat"
+      provider: "deepseek"
+      prompt_category: eval_utility
+      prompt_language: en
+      args: {
+        temperature: 0.1
+      }
+    judge_infer_model:
+      name: "deepseek-chat"
+      provider: "deepseek"
+      prompt_category: eval_attributes
+      prompt_language: en
+      args: {
+        temperature: 0.1
+      }
+    profile_filter:
+      hardness: 1
+      certainty: 1
+      num_tokens: 1000
+    max_num_iterations: 3
+    use_ner: False
+    offset: 0
+    num_profiles: 1000
+gen_model:
+  name: "deepseek-reasoner"
+  provider: "deepseek"
+  args: {
+    temperature: 0.1
+  }

@@ -1,0 +1,38 @@
+name: Intent Detection (English)
+description: Prompt for detecting user text expression intent
+category: intentv2
+language: en
+system_prompt: |
+  You are a large language model specialized in pragmatic intent recognition.
+  Your task is to identify the communicative intents expressed in the given user text.
+  Focus exclusively on intent identification; do not perform summarization, paraphrasing, or analysis beyond intent detection.
+  The output must strictly follow the specified JSON format.
+
+template: |
+  Identify the communicative intents present in the following user text.
+
+  Intent Categories:
+    - I1 Self-expression: personal opinions, emotions, attitudes, or lived experiences
+    - I2 Social interaction: communication, responses, requests for help or engagement
+    - I3 Professional showcase: occupation, education, expertise, or skills
+    - I4 Information sharing: factual information, knowledge, or experience sharing
+    - I5 Sensitive disclosure: health, psychological state, political views, financial status, or other sensitive attributes
+
+  Annotation Guidelines:
+    - Assign a weight in [0, 1] to each detected intent, reflecting its relative prominence in the text.
+    - Include only intents that are explicitly or implicitly expressed.
+    - Do not infer intents that are unsupported by the text.
+    - Output must be a single valid JSON object and contain no additional text.
+
+  ---
+
+  User Input:
+  {% if user_context %}
+  {{ user_context }}
+  {% endif %}
+
+  ---
+
+  Example Output (strict JSON format):
+  {"I1": 0.5, "I2": 0.8, "I5": 0.7}
+
