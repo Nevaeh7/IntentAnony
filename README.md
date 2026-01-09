@@ -264,9 +264,17 @@ stats = asyncio.run(batch_evaluate_utility(
 
 ---
 
+## 🙏 Acknowledgements
+
+We thank the authors of  
+[LLM-Anonymization](https://github.com/eth-sri/llm-anonymization)  
+for releasing their code and inspiring this work.
+
+---
+
 ## 📌 Citation
 
-If you find this project useful, please cite our paper:
+If you use this code, please consider citing our work:
 
 ```bibtex
 @article{intentanony2026,
@@ -276,6 +284,7 @@ If you find this project useful, please cite our paper:
   year    = {2026}
 }
 ```
+
 
 
 
