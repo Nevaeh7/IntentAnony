@@ -1,187 +1,225 @@
-# IntentAnony - Intent-Based Anonymization System
+# IntentAnony  
+**You Only Anonymize What Is Not Intent-Relevant: Suppressing Non-Intent Privacy Evidence**
 
-An intent-based anonymization system built on large language models (LLMs) that protects user privacy while maintaining text utility. The system supports multiple anonymization strategies, privacy evaluation, and utility assessment.
+<p align="center">
+  📄 <a href="https://arxiv.org/abs/2601.04265">arXiv</a>
+  &nbsp;&nbsp;•&nbsp;&nbsp;
+  🛡️ Intent-Aware Privacy Protection
+  &nbsp;&nbsp;•&nbsp;&nbsp;
+  🤖 Large Language Models
+</p>
 
-## Features
+---
 
-- **Intent-Based Anonymization**: Intelligent anonymization processing based on intent recognition
-- **Privacy Protection**: Supports multiple anonymization strategies (LLM, Azure, Span, etc.)
-- **Privacy Evaluation**: Assesses privacy protection effectiveness after anonymization
-- **Utility Evaluation**: Evaluates text utility after anonymization (BLEU, ROUGE, LLM Judge)
-- **Intent Recognition**: Automatically identifies privacy intents in user text
-- **Attack Assessment**: Evaluates privacy leakage risks from adversarial attacks
-- **Async Processing**: Efficient asynchronous batch processing capabilities
-- **Multi-Model Support**: Supports multiple LLM providers (OpenAI, DeepSeek, Google, GLM, etc.)
+## 🔍 Overview
 
-## Project StructureIntentAnony_Updated/
+**IntentAnony** is a pragmatic *intent-conditioned text anonymization framework* built on large language models (LLMs).  
+It protects user privacy under **inference-based threat models** while preserving **communicative intent and textual utility**.
+
+Unlike surface-level masking or generic rewriting, IntentAnony **selectively suppresses non-intent privacy evidence**, ensuring that only information irrelevant to the user’s communicative intent is anonymized.
+
+---
+
+## ✨ Key Features
+
+- 🎯 **Intent-aware anonymization** rather than blanket masking  
+- 🛡️ Defense against **attribute inference and profiling attacks**  
+- 📊 Integrated **privacy–utility evaluation** (automatic + human)  
+- 🔄 Supports multiple anonymization strategies and threat settings
+
+---
+
+## 📁 Project Structure
 
 ```
-├── anonymized/              # Core anonymization module
-│   ├── anonymizers/         # Anonymizer implementations
-│   ├── run_workflow.py      # Anonymization workflow
-│   └── eval_workflow.py   #  Evaluationworkflow
-├── configs/                 # Configuration files
-│   └── config.py            # Configuration class definitions
-├── privacy_configs/         # Privacy configuration examples
-├── prompt_kits/             # Prompt management
-│   ├── prompts/             # Prompt templates
-│   └── policy_manager.py    # Policy manager
-├── llm_tools/               # LLM tool wrappers
-│   ├── openai_tool.py       # OpenAI tools
-│   └── async_openai_tool.py # Async OpenAI tools
-├── pu_eval/                 # Privacy and utility evaluation
-│   ├── eval_privacy.py      # Privacy evaluation
-│   ├── eval_utility.py      # Utility evaluation
-│   └── async_eval_utility.py # Async utility evaluation
-├── infer_attack/            # Inference attack module
-├── utils/                   # Utility functions
-├── dataset/                 # Datasets
-├── main.py                  # Main entry point
-└── requirements.txt         # Dependencies
+IntentAnony_Updated/
+├── anonymized/                 # Core anonymization module
+│   ├── anonymizers/            # Anonymizer implementations
+│   ├── run_workflow.py         # End-to-end anonymization workflow
+│   └── eval_workflow.py        # Privacy & utility evaluation workflow
+├── configs/                    # Configuration definitions
+│   └── config.py               # Configuration class
+├── privacy_configs/            # Example privacy task configurations
+├── prompt_kits/                # Prompt management and policies
+│   ├── prompts/                # Prompt templates
+│   └── policy_manager.py       # Policy manager
+├── llm_tools/                  # LLM provider wrappers
+│   ├── openai_tool.py
+│   └── async_openai_tool.py
+├── pu_eval/                    # Privacy & utility evaluation
+│   ├── eval_privacy.py
+│   ├── eval_utility.py
+│   └── async_eval_utility.py
+├── infer_attack/               # Inference attack implementations
+├── utils/                      # Shared utility functions
+├── dataset/                    # Datasets
+├── main.py                     # Main entry point
+└── requirements.txt            # Dependencies
 ```
 
-## System Requirements
+---
 
-- Python >= 3.8
-- MongoDB (optional, for data storage)
-- Sufficient API quotas (OpenAI, DeepSeek, Google, etc.)
+## 🖥️ System Requirements
 
-## Installation
+* **Python** ≥ 3.8
+* **MongoDB** (optional, for dataset storage and experiment logging)
+* Sufficient API quotas for supported LLM providers
+  (OpenAI, DeepSeek, Google, GLM, etc.)
 
-### 1. Clone the repository
+---
+
+## ⚙️ Installation
+
+### 1️⃣ Clone the repository
 
 ```bash
 git clone <repository-url>
 cd IntentAnony
 ```
 
-### 2. Create a virtual environment (recommended)
+### 2️⃣ Create a virtual environment (recommended)
 
 ```bash
 python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+source venv/bin/activate   # Windows: venv\Scripts\activate
 ```
 
-### 3. Install dependencies
+### 3️⃣ Install dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Download NLTK data (for BLEU calculation)
+### 4️⃣ Download NLTK resources (for BLEU computation)
 
 ```python
 import nltk
 nltk.download('punkt')
 ```
 
-### 5. Configure API Keys
+---
 
-Create or edit the `llm_tools/keys.json` file to set your API keys:
+## 🔑 API Key Configuration
+
+Create or edit `llm_tools/keys.json`:
 
 ```json
 {
-    "openai": "sk-your-openai-api-key",
-    "deepseek": "sk-your-deepseek-api-key",
-    "google": "your-gemini-api-key",
-    "glm": "sk-your-glm-api-key",
+  "openai": "sk-your-openai-api-key",
+  "deepseek": "sk-your-deepseek-api-key",
+  "google": "your-gemini-api-key",
+  "glm": "sk-your-glm-api-key"
 }
 ```
 
-**Note**: Only include the API keys for the providers you plan to use. The system will automatically load these keys from `llm_tools/keys.json` when initializing LLM tools.
+> **Note**
+>
+> * Only include providers you intend to use
+> * Keys are automatically loaded when initializing LLM tools
 
-For MongoDB connection (optional), you can configure it in your configuration files or set environment variables:
+### MongoDB (Optional)
 
 ```bash
 export MONGODB_HOST="localhost"
 export MONGODB_PORT="27017"
 ```
 
-## Quick Start
+---
 
-### 1. Run anonymization task
+## 🚀 Quick Start
+
+Run a complete anonymization → inference → evaluation pipeline:
 
 ```bash
-python main.py --config_path .\privacy_configs\personal_reddit\synthetic_glm_ad_piec.yaml --new
+python main.py \
+  --config_path ./privacy_configs/personal_reddit/synthetic_glm_ad_piec.yaml \
+  --new
 ```
 
-## Configuration
+---
 
-Configuration files use YAML format and mainly contain the following sections:
+## 🧩 Configuration
+
+Configuration files are written in **YAML** and include:
 
 ```yaml
-output_dir: "results"           # Output directory
-seed: 10                        # Random seed
-task: "ANONYMIZED"              # Task type
-dataset_name: "personal_reddit"  # Dataset name
-collection_name: "personal_reddit"  # MongoDB collection name
+output_dir: "results"
+seed: 10
+task: "ANONYMIZED"
+dataset_name: "personal_reddit"
+collection_name: "personal_reddit"
 
 task_config:
-  profile_path: "dataset/..."    # Dataset path
-  outpath: "results/..."        # Output path
-  anonymizer:                    # Anonymizer configuration
-    anon_type: "llm"             # Anonymization type
-    target_mode: "single"        # Target mode
-  anon_model:                    # Anonymization model
+  profile_path: "dataset/..."
+  outpath: "results/..."
+  anonymizer:
+    anon_type: "llm"
+    target_mode: "single"
+  anon_model:
     name: "gemini-3-pro-preview"
     provider: "google"
     prompt_policy_version: "7.0"
-  inference_model:               # Inference model
+  inference_model:
     name: "deepseek-reasoner"
     provider: "deepseek"
-  utility_model:                 # Utility evaluation model
+  utility_model:
     name: "deepseek-chat"
     provider: "deepseek"
 ```
 
-## Main Modules
+---
 
-### 1. Anonymization Module (`anonymized/`)
+## 🧠 Main Modules
 
-- **IntentAnonymizer**: Intent-based anonymizer
-- **PIECAnonymizer**: Privacy inference evidence chain anonymizer
-- **AzureAnonymizer**: Azure text analytics anonymizer
+### 1️⃣ Anonymization (`anonymized/`)
 
-### 2. Evaluation Module (`pu_eval/`)
+* **IntentAnonymizer** – intent-aware selective anonymization
+* **PIECAnonymizer** – privacy inference evidence chain suppression
+* **AzureAnonymizer** – Azure text analytics anonymizer
 
-- **Privacy Evaluation**: Assesses privacy protection effectiveness after anonymization
-- **Utility Evaluation**: Calculates BLEU, ROUGE, and LLM Judge scores
-- **Attack Evaluation**: Evaluates success rate of adversarial attacks
+### 2️⃣ Evaluation (`pu_eval/`)
 
-### 3. LLM Tools (`llm_tools/`)
+* **Privacy Evaluation** – inference success & protection rate
+* **Utility Evaluation** – BLEU, ROUGE, LLM Judge
+* **Attack Evaluation** – adversarial inference success rate
 
-Supports multiple LLM providers:
+### 3️⃣ LLM Tools (`llm_tools/`)
 
-- OpenAI (GPT series)
-- DeepSeek
-- Google (Gemini)
-- GLM
-- Claude
-- Custom providers
+Supported providers include:
 
-### 4. Prompt Management (`prompt_kits/`)
+* OpenAI (GPT series)
+* DeepSeek
+* Google (Gemini)
+* GLM
+* Claude
+* Custom providers
 
-- Structured prompt management
-- Multi-language support
-- Version control
-- Policy management
+### 4️⃣ Prompt Management (`prompt_kits/`)
 
-## Evaluation Metrics
+* Structured prompt organization
+* Multi-language support
+* Prompt versioning and policy control
+
+---
+
+## 📊 Evaluation Metrics
 
 ### Privacy Metrics
 
-- **Inference Accuracy**: Accuracy of attackers inferring privacy attributes from anonymized text
-- **Privacy Protection Rate**: Proportion of privacy information successfully protected
+* **Inference Accuracy**
+* **Privacy Protection Rate**
 
 ### Utility Metrics
 
-- **BLEU**: BLEU score for text similarity
-- **ROUGE**: ROUGE-1, ROUGE-L, ROUGE-Lsum scores
-- **LLM Judge**: LLM-based scores for readability, semantic preservation, and hallucination detection
+* **BLEU**
+* **ROUGE-1 / ROUGE-L / ROUGE-Lsum**
+* **LLM Judge** (readability, semantic preservation, hallucination)
 
-## Usage Examples
+---
 
-### Example 1: Basic Anonymization
+## 🧪 Usage Examples
+
+### Example 1: End-to-End Anonymization
 
 ```python
 from anonymized.run_workflow import run_anon_infer_eval
@@ -201,12 +239,13 @@ from prompt_kits.prompt_manager_final import get_manager
 from utils.mongo_utils import MongoDBConnector
 import asyncio
 
-prompt_manager = get_manager(default_category='eval_utility')
-llm_model = create_async_any_tool(model='gpt-5', provider='openai')
+prompt_manager = get_manager(default_category="eval_utility")
+llm_model = create_async_any_tool(model="gpt-5", provider="openai")
+
 mongo = MongoDBConnector()
 mongo.connect()
 
-profiles = mongo.read_data('personal_reddit', query={...})
+profiles = mongo.read_data("personal_reddit", query={...})
 stats = asyncio.run(batch_evaluate_utility(
     profiles=profiles,
     prompt_manager=prompt_manager,
@@ -215,8 +254,28 @@ stats = asyncio.run(batch_evaluate_utility(
 ))
 ```
 
-## Notes
+---
 
-1. **API Keys**: Ensure all required API keys are properly configured in `llm_tools/keys.json`
-2. **MongoDB**: If using MongoDB, ensure the service is running
-3. **Data Format**: Ensure input data conforms to the expected format (JSONL)
+## ⚠️ Notes
+
+1. Ensure all required API keys are correctly set
+2. MongoDB must be running if enabled
+3. Input data should follow the expected JSONL format
+
+---
+
+## 📌 Citation
+
+If you find this project useful, please cite our paper:
+
+```bibtex
+@article{intentanony2026,
+  title   = {You Only Anonymize What Is Not Intent-Relevant: Suppressing Non-Intent Privacy Evidence},
+  author  = {Shen, Weihao and Xu, Yaxin and Li, Shuang and Chen, Wei and Lan, Yuqin and Yuan, Meng and Zhuang, Fuzhen},
+  journal = {arXiv preprint arXiv:2601.04265},
+  year    = {2026}
+}
+```
+
+
+
