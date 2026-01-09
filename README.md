@@ -15,7 +15,6 @@
 
 **IntentAnony** is a pragmatic *intent-conditioned text anonymization framework* built on large language models (LLMs).  
 It protects user privacy under **inference-based threat models** while preserving **communicative intent and textual utility**.
-
 Unlike surface-level masking or generic rewriting, IntentAnony **selectively suppresses non-intent privacy evidence**, ensuring that only information irrelevant to the user’s communicative intent is anonymized.
 
 ---
@@ -284,6 +283,7 @@ If you use this code, please consider citing our work:
   year    = {2026}
 }
 ```
+
 
 
 
