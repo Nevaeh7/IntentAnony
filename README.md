@@ -1,5 +1,4 @@
-# IntentAnony  
-**You Only Anonymize What Is Not Intent-Relevant: Suppressing Non-Intent Privacy Evidence**
+# You Only Anonymize What Is Not Intent-Relevant: Suppressing Non-Intent Privacy Evidence
 
 <p align="center">
   📄 <a href="https://arxiv.org/abs/2601.04265">arXiv</a>
@@ -283,6 +282,7 @@ If you use this code, please consider citing our work:
   year    = {2026}
 }
 ```
+
 
 
 
